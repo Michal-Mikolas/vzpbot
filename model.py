@@ -61,11 +61,13 @@ class Model(object):
 			'surname': self._fix_str(self.ws.cell(self.r, 1).value),
 			'name': self._fix_str(self.ws.cell(self.r, 2).value),
 			'birthdate': self._parse_date(self.ws.cell(self.r, 3).value),
-			'insurance': self._fix_str(self.ws.cell(self.r, 8).value),
+			'insurance_type': self._fix_str(self.ws.cell(self.r, 8).value),
+			'insurance_text': self._fix_str(self.ws.cell(self.r, 9).value),
 		}
 
 	def persist(self, entry):
-		self.ws.cell(entry['r'], 8).value = entry['insurance']
+		self.ws.cell(entry['r'], 8).value = entry['insurance_type']
+		self.ws.cell(entry['r'], 9).value = entry['insurance_text']
 
 	def save(self, file):
 		self.wb.save(file)

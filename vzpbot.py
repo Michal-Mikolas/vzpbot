@@ -12,18 +12,26 @@ class VZPBot(object):
 		go_to('https://point.vzp.cz/online/online01')
 		click(u'Ověřit pojištěnce dle jména a data narození')
 
-	def search(self, data):
+	def fetch_insurance(self, data):
 		write(data['name'], S('#Search_FirstName'))
 		write(data['surname'], S('#Search_LastName'))
 		write(data['birthdate'].strftime('%d.%m.%Y'), S('#Search_BirthDate'))
+		click(S('.active.start-date.active.end-date.available'))  # confirm birthdate
 
 		click('Ověřit pojištění')
-		click(S('button.btn.btn-primary.btn-lg'))
 
-		time.sleep(0.1)
 		wait_until(S('#result').exists)
 
-		if S('#result > div > div:nth-child(3) > div.col-md-5 > p > span.text-strong').exists():
-			return True
+		data['insurance_text'] = S('#result').web_element.text.replace(u'Výsledek ověření', '').strip()
+		if u'platné pojištění' in data['insurance_text']:
+			data['insurance_type'] = 1
+		elif u'žádný pojištěnec' in data['insurance_text']:
+			data['insurance_type'] = 0
+		elif u'nebyl ke dni' in data['insurance_text']:
+			data['insurance_type'] = 0
+		elif u'více pojištěnců' in data['insurance_text']:
+			data['insurance_type'] = 2
 		else:
-			return False
+			data['insurance_type'] = 'ERROR'
+
+		return data

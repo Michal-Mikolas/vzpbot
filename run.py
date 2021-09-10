@@ -69,16 +69,15 @@ while True:
 		# Process all entries
 		#
 		while True:
-			entry = model.next()
-			if not entry:
-				break
+			try:
+				entry = model.next()
+				if not entry:
+					break
+			except Exception as e:
+				entry['insurance_type'] = 'ERROR'
+				entry['insurance_text'] = "%s: %s" % (type(e).__name__, str(e))
 
-			found = vzp.search(entry)
-
-			if found:
-				entry['insurance'] = 1
-			else:
-				entry['insurance'] = 0
+			entry = vzp.fetch_insurance(entry)
 
 			model.persist(entry)
 
@@ -98,4 +97,4 @@ while True:
 	# Wait for new files
 	#
 	print("[{:s}] ...".format(str_datetime()))
-	time.sleep(30)
+	time.sleep(5)
