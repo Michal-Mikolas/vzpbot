@@ -80,7 +80,7 @@ while True:
 			entry = vzp.fetch_insurance(entry)
 
 			model.persist(entry)
-
+ 
 		#
 		# Save & move files
 		#

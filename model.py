@@ -56,7 +56,7 @@ class Model(object):
 		if self.r > self.max_row:
 			return None
 
-		return {
+		result = {
 			'r': self.r,
 			'surname': self._fix_str(self.ws.cell(self.r, 1).value),
 			'name': self._fix_str(self.ws.cell(self.r, 2).value),
@@ -64,6 +64,11 @@ class Model(object):
 			'insurance_type': self._fix_str(self.ws.cell(self.r, 8).value),
 			'insurance_text': self._fix_str(self.ws.cell(self.r, 9).value),
 		}
+
+		if not result['surname'] and not result['name']:
+			return None
+		else:
+			return result
 
 	def persist(self, entry):
 		self.ws.cell(entry['r'], 8).value = entry['insurance_type']
@@ -89,6 +94,9 @@ class Model(object):
 
 		if re.search(r'^\d+\.0$', value):  # revert excel 'decimal to float' conversion
 			value = re.sub(r'\.0$', '', value)
+
+		if value == 'None':
+			value = None
 
 		return value
 
