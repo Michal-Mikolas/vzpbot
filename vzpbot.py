@@ -7,7 +7,7 @@ class VZPBot(object):
 		start_firefox()
 		go_to('https://auth.vzp.cz/signin')
 		click(u'Přihlásit se certifikátem')
-		wait_until(S('h2.heading.heading--medium.u-mb-1h').exists)
+		wait_until(S('h2.heading.heading--medium.u-mb-1h').exists, timeout_secs=120)
 
 		go_to('https://point.vzp.cz/online/online01')
 		click(u'Ověřit pojištěnce dle jména a data narození')
