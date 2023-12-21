@@ -15,6 +15,7 @@ class VZPBot(object):
 		click(self.shadow('#queryBy_radioinput_8'))
 
 	def fetch_insurance(self, data):
+		write(data['date'].strftime('%d.%m.%Y'), self.shadow('[name=queryDate]'))
 		write(data['name'], self.shadow('[name=firstName]'))
 		write(data['surname'], self.shadow('[name=lastName]'))
 		write(data['birthdate'].strftime('%d.%m.%Y'), self.shadow('[name=birthDate]'))
