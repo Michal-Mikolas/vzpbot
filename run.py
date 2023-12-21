@@ -73,14 +73,15 @@ while True:
 				entry = model.next()
 				if not entry:
 					break
+
+				entry = vzp.fetch_insurance(entry)
+
 			except Exception as e:
 				entry['insurance_type'] = 'ERROR'
 				entry['insurance_text'] = "%s: %s" % (type(e).__name__, str(e))
 
-			entry = vzp.fetch_insurance(entry)
-
 			model.persist(entry)
- 
+
 		#
 		# Save & move files
 		#
