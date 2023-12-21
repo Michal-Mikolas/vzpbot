@@ -41,4 +41,4 @@ class VZPBot(object):
 	def shadow(self, query):
 		shadowQuery = """return document.querySelector('#content-panel > div').shadowRoot.querySelector('{}');"""
 		return get_driver().execute_script(shadowQuery.format(query))
-data
+
